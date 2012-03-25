@@ -19,7 +19,7 @@ function movie(){
     
     this.play = function(){
         
-        $("#rec").html('Playing '+ this.title);
+        $("div.res").html('Playing '+ this.title);
         
         this.change = true;
         
@@ -28,7 +28,7 @@ function movie(){
     
     this.stop = function(){
         
-        $("#rec").html(this.title + ' stopped');
+        $("div.res").html(this.title + ' stopped');
         
         this.change = true;
         
@@ -63,28 +63,42 @@ function movie(){
     
     // Methods for Observable ************************************
     
-    this.addObserver = function(observer){}
-        // Add a MovieObserver to observers
-    this.deleteObserver = function(observer){}
-        // Delete a MovieObserver to observers
+    this.addObserver = function(observer){
+        this.observers.push(observer);
+        
+       // $("div.obsPlay").html(this.observers.length);
+    }
+    
+    this.deleteObserver = function(observer){
+        var j;
+        for(j = 0; j< this.observers.length; j++){
+            if (this.observers[j].getId() == observer.getId()) {
+                this.observers.splice(j,1);
+            }
+        }
+    }
+    
     this.setChanged = function(){ 
         this.change = true;
     }
+    
     this.clearChanged = function(){
-        this.change = false;}
-    this.hasChanged = function(){return this.change;
+        this.change = false;
     }
+    
+    this.hasChanged = function(){
+        return this.change;
+    }
+    
     this.notifyObservers = function(event) {
         if (this.change){
            var i;
-           for (i = 0; i < this.observers.lenght; i++){
+           for (i = 0; i < this.observers.length; i++){
                this.observers[i].update(event, this);
            }
         }
     }
-        //Comprueba el flag interno para ver si el Observable ha cambiado de estado y lo notifica a todos los observadores
-
     
-    //************************************************************
+    //***********************************************************
 }
 
